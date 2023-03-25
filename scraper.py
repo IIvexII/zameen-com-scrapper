@@ -1,16 +1,10 @@
 import requests
 from bs4 import BeautifulSoup
-import decimal
-
-# set the global precision level to 2 decimal places
-decimal.getcontext().prec = 2
-
-# convert crore, lakhs and millions,Arab into numbers with comments
 
 
 def convert_price(price):
     """
-    Convert crore, lakhs and millions into numbers
+    Convert crore, lakhs, millions and Thousand into numbers
 
     :param price: str
     :return: float
@@ -23,6 +17,8 @@ def convert_price(price):
         return round(float(price[:-7]) * 1000000)
     elif price.endswith('Arab'):
         return round(float(price[:-4]) * 1000000000)
+    elif price.endswith('Thousand'):
+        return round(float(price[:-8]) * 1000)
     else:
         return round(float(price))
 
@@ -76,6 +72,14 @@ def text(tag, datatype="str"):
 
 
 def scrap(city, pages_range):
+    """
+    This function will scrap the zameen.com website and
+    return the list of houses information
+
+    :param city: str
+    :param pages_range: int
+    :return: list
+    """
     house_info = []
 
     for page_number in range(1, pages_range+1):
@@ -97,6 +101,9 @@ def scrap(city, pages_range):
             size = house.select_one("div[title]>div > div > span:nth-child(1)")
 
             if price:
+                if size is None:
+                    size = location.parent.select_one(
+                        "div:nth-child(2) > div > span:nth-child(3)")
                 house_info.append(
                     {
                         "location": text(location),
@@ -132,13 +139,16 @@ if __name__ == "__main__":
         {'id': 327, 'name': 'Gujranwala'},
         {'id': 1233, 'name': 'Attock'},
         {'id': 3234, 'name': '2_FECHS'},
+
     ]
 
     for city in cities:
+
+        # change 20 to any number of pages you want to scrap
         house_info.append(
             {
                 "city": city.get('name'),
-                "info": scrap(f"{city.get('name')}-{city.get('id')}", 20)
+                "info": scrap(f"{city.get('name')}-{city.get('id')}", 100)
             }
         )
 
