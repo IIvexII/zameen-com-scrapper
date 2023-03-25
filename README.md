@@ -4,7 +4,7 @@ This is a web scraper built to collect data from Zameen.com, a leading online pr
 
 ## Download Dataset
 
-I have collected data of 4000+ properties that you can download from [Zameen.com Property Dataset Pakistan 2023](https://www.kaggle.com/datasets/muhammadzafeer/zameen-com-property-data-pakistan-2023)
+I have collected data of 16K+ properties that you can download from [Zameen.com Property Dataset Pakistan 2023](https://www.kaggle.com/datasets/muhammadzafeer/zameen-com-property-data-pakistan-2023)
 
 ## Usage
 
